@@ -80,11 +80,11 @@ output "path" {
 
 locals {
   updated_config = merge(yamldecode(var.config),
-    { "annotations" = {
+    { "annotations" = merge({
       "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
       "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/${var.name}/",
       "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
-      },
+      }, var.main_package == "" ? {} : { "dev.chainguard.image.main.package" : var.main_package })
     },
   )
 }
